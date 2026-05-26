@@ -72,28 +72,70 @@ refresh_rate = st.sidebar.selectbox(
     ["5 sec", "10 sec", "30 sec"]
 )
 
-# ---------------- SAMPLE DATA ----------------
+# ---------------- DATE RANGE ----------------
 dates = pd.date_range(
     end=datetime.now(),
     periods=selected_days * 24,
-    freq="h"   # FIXED HERE
+    freq="h"
 )
 
-energy_usage = np.random.randint(20, 120, size=len(dates))
+# ---------------- DEVICE CONFIGURATION ----------------
+device_profiles = {
+    "ESP32 Device 1": {
+        "base_energy": 60,
+        "voltage": 220
+    },
+    "ESP32 Device 2": {
+        "base_energy": 80,
+        "voltage": 230
+    },
+    "ESP32 Device 3": {
+        "base_energy": 100,
+        "voltage": 240
+    }
+}
 
-voltage = np.random.randint(210, 250, size=len(dates))
+profile = device_profiles[selected_device]
 
-current = np.random.uniform(1.0, 10.0, size=len(dates))
+# ---------------- DATA GENERATION FUNCTION ----------------
+def generate_energy_data(dates, profile):
 
-power_factor = np.random.uniform(0.7, 1.0, size=len(dates))
+    np.random.seed(42)
 
-df = pd.DataFrame({
-    "Timestamp": dates,
-    "Energy Usage (kWh)": energy_usage,
-    "Voltage (V)": voltage,
-    "Current (A)": current,
-    "Power Factor": power_factor
-})
+    base_energy = profile["base_energy"]
+
+    energy_usage = (
+        base_energy
+        + 15 * np.sin(np.linspace(0, 3*np.pi, len(dates)))
+        + np.random.normal(0, 5, len(dates))
+    )
+
+    voltage = (
+        profile["voltage"]
+        + np.random.normal(0, 3, len(dates))
+    )
+
+    current = (
+        energy_usage / 12
+        + np.random.normal(0, 0.5, len(dates))
+    )
+
+    power_factor = np.clip(
+        np.random.normal(0.92, 0.03, len(dates)),
+        0.75,
+        1.0
+    )
+
+    return pd.DataFrame({
+        "Timestamp": dates,
+        "Energy Usage (kWh)": np.round(energy_usage, 2),
+        "Voltage (V)": np.round(voltage, 2),
+        "Current (A)": np.round(current, 2),
+        "Power Factor": np.round(power_factor, 2)
+    })
+
+# ---------------- GENERATE DATA ----------------
+df = generate_energy_data(dates, profile)
 
 # ---------------- METRICS ----------------
 st.subheader("📊 Live Energy Metrics")
@@ -103,8 +145,8 @@ col1, col2, col3, col4 = st.columns(4)
 with col1:
     st.metric(
         "Current Usage",
-        f"{energy_usage[-1]} kWh",
-        f"{energy_usage[-1] - energy_usage[-2]} kWh"
+        f"{df['Energy Usage (kWh)'].iloc[-1]} kWh",
+        f"{round(df['Energy Usage (kWh)'].iloc[-1] - df['Energy Usage (kWh)'].iloc[-2], 2)} kWh"
     )
 
 with col2:
@@ -116,7 +158,7 @@ with col2:
 with col3:
     st.metric(
         "Peak Voltage",
-        f"{df['Voltage (V)'].max()} V"
+        f"{round(df['Voltage (V)'].max(), 2)} V"
     )
 
 with col4:
@@ -219,7 +261,6 @@ st.dataframe(
 st.subheader("🤖 AI-Based Insights")
 
 avg_usage = df["Energy Usage (kWh)"].mean()
-
 peak_voltage = df["Voltage (V)"].max()
 
 if avg_usage > 80:
@@ -243,7 +284,7 @@ if peak_voltage > 245:
 # ---------------- FOOTER ----------------
 st.markdown("---")
 
-st.markdown("""
+st.markdown(f"""
 ### 🚀 Features Included
 
 - Real-time energy monitoring
@@ -253,6 +294,11 @@ st.markdown("""
 - AI-generated energy insights
 - Streamlit-based visualization
 - Responsive dashboard layout
+
+### ⚙️ Active Configuration
+
+- Selected Device: **{selected_device}**
+- Refresh Rate: **{refresh_rate}**
 
 ---
 

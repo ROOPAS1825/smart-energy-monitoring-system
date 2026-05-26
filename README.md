@@ -1,6 +1,6 @@
 # ⚡ Smart Energy Monitoring System
 
-An open-source IoT and AI-based smart energy monitoring system designed to monitor, analyze, and visualize energy usage data in real time.
+An open-source IoT and AI-based smart energy monitoring system designed to monitor, analyze, and visualize energy usage data in real-time.
 
 ---
 
@@ -74,7 +74,7 @@ The system follows a modular IoT-based architecture for collecting, processing, 
 ## 📂 Project Structure
 
 ```text
-Smart-Energy-Monitoring-System/
+smart-energy-monitoring-system/
 │
 ├── dashboard.py          # Streamlit dashboard
 ├── requirements.txt      # Python dependencies
