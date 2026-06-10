@@ -495,7 +495,7 @@ if raw_df is not None:
         daily_chart = alt.layer(bar, line).resolve_scale(
             y='independent'
         ).properties(
-            width='100%',
+            width='container',
             height=350
         ).configure_view(
             strokeWidth=0
@@ -518,7 +518,7 @@ if raw_df is not None:
             color=alt.Color('Total (kWh):Q', scale=alt.Scale(scheme='yelloworange-red'), title='Avg kWh'),
             tooltip=['Day of Week', 'Hour', 'Total (kWh)']
         ).properties(
-            width='100%',
+            width='container',
             height=280
         )
         
@@ -554,7 +554,7 @@ if raw_df is not None:
             color=alt.Color('Peak Type:N', scale=color_scale, legend=alt.Legend(title="Load Level")),
             tooltip=['Hour', 'Total (kWh)']
         ).properties(
-            width='100%',
+            width='container',
             height=350
         )
         
@@ -634,7 +634,7 @@ if raw_df is not None:
             color=alt.Color('In Peak Window:N', scale=alt.Scale(domain=[True, False], range=['#ff3d00', '#00adb5']), title='Is Peak Hour'),
             tooltip=['Hour', 'Temperature (°F)', 'Total (kWh)']
         ).properties(
-            width='100%',
+            width='container',
             height=300
         )
         st.altair_chart(temp_chart, use_container_width=True)
@@ -697,7 +697,7 @@ if raw_df is not None:
             color=alt.Color('Appliance:N', scale=alt.Scale(scheme='tableau10')),
             tooltip=['Hour', 'Appliance', 'Consumption (kWh)']
         ).properties(
-            width='100%',
+            width='container',
             height=350
         )
         st.altair_chart(area_chart, use_container_width=True)
