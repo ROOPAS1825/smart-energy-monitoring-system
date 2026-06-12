@@ -1,24 +1,25 @@
 # Smart Energy Monitoring System
 
-An open-source IoT and AI-based smart energy monitoring system designed to monitor, analyze, and visualize energy usage data.
+Smart Energy Monitoring System is an open source IOT project that helps users monitor electricity consumption in real time using ESP32 devices.
+The system collects energy usage data through sensors, transmits it using MQTT, stores it in a backend server and visualizes it through an interactive dashboard.
+The goal is to help households and industriesreduce energy wastage and make data-driven decisions.
 
 ## Features
-- Real-time monitoring
+- Real-time energy monitoring
 - IoT integration
-- Data visualization
-- AI/ML analytics
-- Beginner-friendly contributions
+- Interactive dashboard
+- Energy consumption analytics
+- AI based usage predictions
+- Alert notifications
+
+## Architecture
+ESp32 Sensors -> MQTT -> Flask Backend -> Database -> Streamlit Dashboard
 
 ## Tech Stack
-- Python
-- IoT
-- Flask
-- MQTT
-- ESP32
-- Streamlit
+- Language :- Python
+- Hardware :- ESP32
+- Backend :- Flask
+- Communication :- MQTT
+- Dashboard :- Streamlit
 
-## Contribution
-Contributions are welcome.
 
-## Project Admin
-Roopa S
